@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+@model DemoTklWebApplication.Models.reviewEmployee
+@using PagedList.Mvc;
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+<div class="container-fluid">
+    <section class="average">
+        <ul class="list-group" style="list-style: none; margin-bottom: 10px;">
+            <li class="list-group-item-info" style="padding: 5px;"><strong class="font-italic">Average Age :</strong> @Model.averageAge</li>
+            <li class="list-group-item-info" style="padding: 5px;"><strong class="font-italic">Average Salary: </strong> @Model.averageSalary</li>
+        </ul>
+    </section>
+    <section class="employeeDetails">
+        <table class="table table-hover border rounded">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Salary</th>
+                    <th>AverageAgeStatus</th>
+                    <th>AverageSalaryStatus</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.employees)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.employee_name</td>
+                        <td>@item.employee_age</td>
+                        <td>@item.employee_salary</td>
+                        <td style="background-color:@item.ageColor;">@item.averageAgeSattus</td>
+                        <td style="background-color: @item.statusColor">@item.averageSalaryStatus</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div id="pagination">
+            <br />
+            Page @(Model.employees.PageCount < Model.employees.PageNumber ? 0 : Model.employees.PageNumber) of @Model.employees.PageCount
+
+            @Html.PagedListPager(Model.employees, page => Url.Action("index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+        </div>
+    </section>
+
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
